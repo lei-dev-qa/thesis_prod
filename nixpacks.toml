@@ -14,7 +14,6 @@ cmds = [
     'chmod -R 775 storage bootstrap/cache',
     'php artisan config:cache',
     'php artisan view:cache'
-    'php artisan migrate --force'
 ]
 
 [start]
