@@ -13,7 +13,7 @@ use App\Models\Application\ApplicationView;
 use Illuminate\Support\Facades\Mail;
 use App\Notifications\Application\CorrectionRequestedNotification;
 use App\Notifications\Payment\PaymentVerifiedNotification;
-
+use Illuminate\Support\Facades\Storage;
 
 class ApplicationController extends Controller
 {
@@ -95,7 +95,7 @@ class ApplicationController extends Controller
         
         return view('admin.applicant.view', compact('application'));
     }
-    
+
     public function serveFile(Application $application, $fileType)
     {
         // Map file types to database columns
