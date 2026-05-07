@@ -230,9 +230,13 @@
                         <div class="col-md-6">
                             @if ($application->payment_proof)
                                 <p><strong>Payment Proof:</strong></p>
-                                <a href="{{ Storage::url($application->payment_proof) }}" target="_blank"
+                                {{-- <a href="{{ Storage::url($application->payment_proof) }}" target="_blank"
                                     class="btn btn-sm btn-primary mb-2">
                                     <i class="bi bi-eye"></i> View Payment Proof
+                                </a> --}}
+                                <a href="{{ route('admin.applications.file', ['application' => $application->id, 'fileType' => 'payment-proof']) }}" 
+                                    target="_blank" class="btn btn-sm btn-primary mb-2">
+                                        <i class="bi bi-eye"></i> View Payment Proof
                                 </a>
 
                                 {{-- Admin actions for submitted payments --}}
@@ -259,7 +263,7 @@
                                     <div class="mt-3">
                                         <p><strong>Official Receipt:</strong></p>
                                         @if ($application->official_receipt_photo)
-                                            <a href="{{ Storage::url($application->official_receipt_photo) }}"
+                                            <a href="{{ route('admin.applications.file', ['application' => $application->id, 'fileType' => 'official-receipt']) }}"
                                                 target="_blank" class="btn btn-sm btn-info mb-2">
                                                 <i class="bi bi-file-earmark-text"></i> View Official Receipt
                                             </a>
