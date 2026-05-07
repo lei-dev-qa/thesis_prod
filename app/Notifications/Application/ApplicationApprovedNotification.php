@@ -8,7 +8,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use App\Models\Application\Application;
 
-class ApplicationApprovedNotification extends Notification
+class ApplicationApprovedNotification extends Notification implements ShouldQueue
 {
     use Queueable;
     protected $application;
