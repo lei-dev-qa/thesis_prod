@@ -95,6 +95,37 @@ class ApplicationController extends Controller
         
         return view('admin.applicant.view', compact('application'));
     }
+    
+    public function serveFile(Application $application, $fileType)
+    {
+        // Map file types to database columns
+        $fileMap = [
+            'payment-proof' => 'payment_proof',
+            'official-receipt' => 'official_receipt_photo',
+            'reassessment-receipt' => 'reassessment_official_receipt_photo',
+            'second-reassessment-receipt' => 'second_reassessment_official_receipt_photo',
+        ];
+
+        if (!isset($fileMap[$fileType])) {
+            abort(404, 'Invalid file type');
+        }
+
+        $column = $fileMap[$fileType];
+        $filePath = $application->$column;
+
+        if (!$filePath || !Storage::exists($filePath)) {
+            abort(404, 'File not found');
+        }
+
+        // Get file from storage (works with both local and S3)
+        $file = Storage::get($filePath);
+        $mimeType = Storage::mimeType($filePath);
+        $fileName = basename($filePath);
+
+        return response($file, 200)
+            ->header('Content-Type', $mimeType)
+            ->header('Content-Disposition', 'inline; filename="' . $fileName . '"');
+    }
 
     /**
      * Show the form for editing the specified resource.
