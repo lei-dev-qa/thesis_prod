@@ -148,6 +148,12 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::post('/payment/{application}/upload-second-reassessment-official-receipt', [ApplicationController::class, 'uploadSecondReassessmentOfficialReceipt'])
         ->name('payment.upload-second-reassessment-official-receipt');
 
+    // Add these NEW routes for viewing/serving files (GET requests)
+    Route::get('/applications/{application}/files/{fileType}', [ApplicationController::class, 'serveFile'])
+        ->name('applications.file')
+        ->where('fileType', 'payment-proof|official-receipt|reassessment-receipt|second-reassessment-receipt');
+
+
     // Enrollment management routes
     // Route::get('/trainees', [AdminController::class, 'traineesList'])->name('trainees.index');
     // Route::get('/trainees/batch/{batch}', [AdminController::class, 'showBatch'])->name('trainees.batch.show');
