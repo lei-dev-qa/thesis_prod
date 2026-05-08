@@ -219,12 +219,6 @@ Route::middleware('guest')->group(function (){
 
     });
 
-    Route::middleware(['auth'])->group(function () {
-        Route::get('/applications/{application}/files/{fileType}', [ApplicationController::class, 'serveFile'])
-            ->name('applications.file')
-            ->where('fileType', 'payment-proof|official-receipt|reassessment-receipt|second-reassessment-receipt');
-    });
-
     // Applicant Routes
     Route::middleware(['auth', 'role:applicant'])->prefix('applicant')->name('applicant.')->group(function (){
         Route::get('/dashboard', [ApplicantController::class, 'dashboard'])->name('dashboard');
@@ -241,9 +235,12 @@ Route::middleware('guest')->group(function (){
             ->name('applications.update');
 
         Route::post('/applications/{application}/reassessment', [ApplicantController::class, 'submitReassessmentPayment'])->name('reassessment.submit');
-        
-
+    
         Route::post('/employment-feedback/{application}', [ApplicantEmploymentController::class, 'store'])
             ->name('employment-feedback.store');
+        
+        Route::get('/applications/{application}/files/{fileType}', [ApplicationController::class, 'serveFile'])
+            ->name('applications.file')
+            ->where('fileType', 'payment-proof|official-receipt|reassessment-receipt|second-reassessment-receipt');
 
 });
