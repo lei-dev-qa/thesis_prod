@@ -16,10 +16,10 @@ class AssessmentBatchSeeder extends Seeder
     public function run(): void
     {
         $programs = [
-            // 'VISUAL GRAPHIC DESIGN NC III' => 20,
-            // 'BOOKKEEPING NC III' => 10,
-            // 'EVENTS MANAGEMENT SERVICES NC III' => 30,
-            // 'TOURISM PROMOTION SERVICES NC II' => 10,
+            'VISUAL GRAPHIC DESIGN NC III' => 20,
+            'BOOKKEEPING NC III' => 10,
+            'EVENTS MANAGEMENT SERVICES NC III' => 30,
+            'TOURISM PROMOTION SERVICES NC II' => 10,
             'PHARMACY SERVICES NC III' => 30,
         ];
 
