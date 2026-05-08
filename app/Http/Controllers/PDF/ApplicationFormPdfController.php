@@ -12,6 +12,35 @@ use Illuminate\Support\Facades\Storage;
 
 class ApplicationFormPdfController extends Controller
 {
+    private function getImagePath($storagePath)
+    {
+        if (empty($storagePath)) {
+            return null;
+        }
+
+        // Check if using S3
+        if (config('filesystems.default') === 's3') {
+            // Download file from S3 to temporary location
+            try {
+                if (!Storage::exists($storagePath)) {
+                    return null;
+                }
+
+                $tempPath = sys_get_temp_dir() . '/' . basename($storagePath);
+                $fileContents = Storage::get($storagePath);
+                file_put_contents($tempPath, $fileContents);
+                
+                return $tempPath;
+            } catch (\Exception $e) {
+                \Log::error('Failed to download S3 image for PDF: ' . $e->getMessage());
+                return null;
+            }
+        }
+
+        // For local storage
+        $localPath = storage_path('app/public/' . $storagePath);
+        return file_exists($localPath) ? $localPath : null;
+    }
     public function print(Application $application)
     {
         $templatePath = resource_path('templates/tesda_application_form.pdf');
@@ -861,8 +890,8 @@ class ApplicationFormPdfController extends Controller
                 
                 // Photo
                 if (!empty($m['photo']) && !empty($application->photo)) {
-                    $photoPath = storage_path('app/public/' . $application->photo);
-                    if (file_exists($photoPath)) {
+                    $photoPath = $this->getImagePath($application->photo);
+                    if ($photoPath) {
                         $pdf->Image($photoPath, $m['photo']['x'], $m['photo']['y'], $m['photo']['w'] ?? 100, $m['photo']['h'] ?? 105);
                     }
                 }
@@ -1002,8 +1031,8 @@ class ApplicationFormPdfController extends Controller
                 // // Name of School/Training Center/Company:
                 $this->writeTextIfExists($pdf, $m['training_center'], $m['training_center']['value']);                // Photo
                 if (!empty($m['photo']) && !empty($application->photo)) {
-                    $photoPath = storage_path('app/public/' . $application->photo);
-                    if (file_exists($photoPath)) {
+                    $photoPath = $this->getImagePath($application->photo);
+                    if ($photoPath) {
                         $pdf->Image($photoPath, $m['photo']['x'], $m['photo']['y'], $m['photo']['w'] ?? 100, $m['photo']['h'] ?? 105);
                     }
                 }
@@ -1025,8 +1054,8 @@ class ApplicationFormPdfController extends Controller
                 $m = $mapping[3];
                 // Photo
                 if (!empty($m['photo']) && !empty($application->photo)) {
-                    $photoPath = storage_path('app/public/' . $application->photo);
-                    if (file_exists($photoPath)) {
+                    $photoPath = $this->getImagePath($application->photo);
+                    if ($photoPath) {
                         $pdf->Image($photoPath, $m['photo']['x'], $m['photo']['y'], $m['photo']['w'] ?? 100, $m['photo']['h'] ?? 105);
                     }
                 }
@@ -1288,8 +1317,8 @@ class ApplicationFormPdfController extends Controller
                 
                 // Photo
                 if (!empty($m['photo']) && !empty($application->photo)) {
-                    $photoPath = storage_path('app/public/' . $application->photo);
-                    if (file_exists($photoPath)) {
+                    $photoPath = $this->getImagePath($application->photo);
+                    if ($photoPath) {
                         $pdf->Image($photoPath, $m['photo']['x'], $m['photo']['y'], $m['photo']['w'] ?? 100, $m['photo']['h'] ?? 105);
                     }
                 }

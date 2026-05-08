@@ -117,7 +117,13 @@ class ApplicationController extends Controller
             abort(404, 'File not found');
         }
 
-        // Get file from storage (works with both local and S3)
+        // Check if using S3 storage
+        if (config('filesystems.default') === 's3') {
+            // For S3, generate a temporary signed URL (valid for 5 minutes)
+            return redirect()->to(Storage::temporaryUrl($filePath, now()->addMinutes(5)));
+        }
+
+        // For local storage (development)
         $file = Storage::get($filePath);
         $mimeType = Storage::mimeType($filePath);
         $fileName = basename($filePath);
