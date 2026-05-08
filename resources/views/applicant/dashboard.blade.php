@@ -835,7 +835,7 @@
 
                                     {{-- View Official Receipt Button (2nd Reassessment) for TWSP --}}
                                     @if ($app->second_reassessment_payment_status === 'verified' && $app->second_reassessment_official_receipt_photo)
-                                        <a href="{{ route('applications.file', ['application' => $app->id, 'fileType' => 'second-reassessment-receipt']) }}"
+                                        <a href="{{ route('applicant.applications.file', ['application' => $app->id, 'fileType' => 'second-reassessment-receipt']) }}"
                                             target="_blank" class="btn btn-info">
                                             <i class="bi bi-file-earmark-text"></i> View 2nd Reassessment Receipt
                                         </a>
@@ -1252,7 +1252,7 @@
 
                                     {{-- View Official Receipt Button (Initial Payment) --}}
                                     @if ($app->payment_status === 'verified' && $app->official_receipt_photo)
-                                        <a href="{{ route('applications.file', ['application' => $app->id, 'fileType' => 'official-receipt']) }}" target="_blank"
+                                        <a href="{{ route('applicant.applications.file', ['application' => $app->id, 'fileType' => 'official-receipt']) }}" target="_blank"
                                             class="btn btn-info">
                                             <i class="bi bi-file-earmark-text"></i> View Official Receipt
                                         </a>
