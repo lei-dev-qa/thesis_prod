@@ -148,43 +148,8 @@ Route::middleware('guest')->group(function (){
         Route::post('/payment/{application}/upload-second-reassessment-official-receipt', [ApplicationController::class, 'uploadSecondReassessmentOfficialReceipt'])
             ->name('payment.upload-second-reassessment-official-receipt');
 
-        // Enrollment management routes
-        // Route::get('/trainees', [AdminController::class, 'traineesList'])->name('trainees.index');
-        // Route::get('/trainees/batch/{batch}', [AdminController::class, 'showBatch'])->name('trainees.batch.show');
-        // Add these inside the admin routes group, after the trainees routes
-        // Route::post('/trainees/batch/{batch}/add-applicant', [AdminController::class, 'addApplicantToBatch'])
-        //     ->name('trainees.batch.add-applicant');
-        // Route::delete('/trainees/batch/{batch}/remove-applicant/{application}', [AdminController::class, 'removeApplicantFromBatch'])
-        // ->name('trainees.batch.remove-applicant');
-
-        // Add this inside admin routes group, after trainees routes
-        // Route::post('/trainees/batch/{batch}/complete', [AdminController::class, 'completeBatch'])->name('trainees.batch.complete');
-        // Route::post('/training-schedules/{trainingSchedule}/send-schedule', [AdminController::class, 'sendTrainingScheduleNotifications'])
-        //         ->name('training-schedules.send-schedule');
-
-        // Schedule management routes
-        // Route::get('/schedules', [AdminController::class, 'manageSchedules'])->name('schedules.index');
-        // Route::post('/schedules', [AdminController::class, 'storeSchedule'])->name('schedules.store');
-        // Route::put('/schedules/{schedule}', [AdminController::class, 'updateSchedule'])->name('schedules.update');
-        // Route::delete('/schedules/{schedule}', [AdminController::class, 'deleteSchedule'])->name('schedules.delete');
-
-        // // Training management routes
-        // Route::get('/training/progress', [AdminController::class, 'trainingProgress'])->name('training.progress');
-        // Route::post('/applications/{application}/complete-training', [AdminController::class, 'markTrainingCompleted'])->name('applications.complete-training');
-        // Route::post('/applications/{application}/fail-training', [AdminController::class, 'markTrainingFailed'])->name('applications.fail-training');
-
         Route::get('/application/history', [AdminController::class, 'listApplicationsHistory'])->name('history.index');
-        // Route::post('/enrollment/archive', [AdminController::class, 'archiveEnrollmentSection'])->name('enrollment.archive');
-        // Route::get('/history/training', [AdminController::class, 'trainingHistory'])->name('history.training');
-        // // Add this inside the admin routes group, after the history.training route
-        // Route::get('/history/training/batch/{batch}', [AdminController::class, 'trainingHistoryBatch'])
-        //     ->name('history.training.batch');
-        // Route::post('/applications/bulk-complete-training', [AdminController::class, 'bulkCompleteTraining'])
-        // ->name('applications.bulk-complete-training');
-        // Route::post('/applications/bulk-fail-training', [AdminController::class, 'bulkFailTraining'])
-        //     ->name('applications.bulk-fail-training');
 
-        // Calendar route
         // contact message
         Route::get('/reassessment/payments', [ReassessmentController::class, 'index'])
             ->name('reassessment.index');
@@ -217,6 +182,11 @@ Route::middleware('guest')->group(function (){
             // routes/web.php (add this to your admin routes)
         Route::post('/employment-feedback/{employmentRecord}/mark-viewed', [EmploymentFeedbackController::class, 'markViewed'])->name('admin.employment-feedback.mark-viewed');
 
+    });
+    Route::middleware(['auth'])->group(function () {
+        Route::get('/applications/{application}/files/{fileType}', [ApplicationController::class, 'serveFile'])
+            ->name('applications.file')
+            ->where('fileType', 'payment-proof|official-receipt|reassessment-receipt|second-reassessment-receipt');
     });
 
     // Applicant Routes

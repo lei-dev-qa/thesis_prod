@@ -1252,7 +1252,7 @@
 
                                     {{-- View Official Receipt Button (Initial Payment) --}}
                                     @if ($app->payment_status === 'verified' && $app->official_receipt_photo)
-                                        <a href="{{ route('applicant.applications.file', ['application' => $app->id, 'fileType' => 'official-receipt']) }}" target="_blank"
+                                        <a href="{{ route('applications.file', ['application' => $app->id, 'fileType' => 'official-receipt']) }}" target="_blank"
                                             class="btn btn-info">
                                             <i class="bi bi-file-earmark-text"></i> View Official Receipt
                                         </a>
