@@ -229,7 +229,7 @@ class ApplicationController extends Controller
             \Storage::disk('public')->delete($application->reassessment_official_receipt_photo);
         }
 
-        $path = $request->file('reassessment_official_receipt_photo')->store('official-receipts/reassessment', 'public');
+        $path = $request->file('reassessment_official_receipt_photo')->store('official-receipts/reassessment');
 
         $application->update([
             'reassessment_official_receipt_photo' => $path,
@@ -250,7 +250,7 @@ class ApplicationController extends Controller
             \Storage::disk('public')->delete($application->second_reassessment_official_receipt_photo);
         }
 
-        $path = $request->file('second_reassessment_official_receipt_photo')->store('official-receipts/second-reassessment', 'public');
+        $path = $request->file('second_reassessment_official_receipt_photo')->store('official-receipts/second-reassessment');
 
         $application->update([
             'second_reassessment_official_receipt_photo' => $path,

@@ -124,7 +124,7 @@ class ApplicantController extends Controller
                 $data['learner_classification'] = $learnerClassification;
                 // Handle photo upload
                 if ($request->hasFile('photo')) {
-                    $data['photo'] = $request->file('photo')->store('applicant-photos', 'public');
+                    $data['photo'] = $request->file('photo')->store('applicant-photos');
                 }
 
                 $application = Application::create($data);
@@ -135,29 +135,29 @@ class ApplicantController extends Controller
                     // Single file uploads
                     if ($request->hasFile('psa_birth_certificate')) {
                         $twspData['psa_birth_certificate'] = $request->file('psa_birth_certificate')
-                            ->store('twsp_documents/birth_certificates', 'public');
+                            ->store('twsp_documents/birth_certificates');
                     }
                     
                     if ($request->hasFile('psa_marriage_contract')) {
                         $twspData['psa_marriage_contract'] = $request->file('psa_marriage_contract')
-                            ->store('twsp_documents/marriage_contracts', 'public');
+                            ->store('twsp_documents/marriage_contracts');
                     }
                     
                     if ($request->hasFile('high_school_document')) {
                         $twspData['high_school_document'] = $request->file('high_school_document')
-                            ->store('twsp_documents/high_school', 'public');
+                            ->store('twsp_documents/high_school');
                     }
                     
                     if ($request->hasFile('certificate_of_indigency')) {
                         $twspData['certificate_of_indigency'] = $request->file('certificate_of_indigency')
-                            ->store('twsp_documents/indigency', 'public');
+                            ->store('twsp_documents/indigency');
                     }
                     
                     // Multiple file uploads
                     if ($request->hasFile('id_pictures_1x1')) {
                         $paths = [];
                         foreach ($request->file('id_pictures_1x1') as $file) {
-                            $paths[] = $file->store('twsp_documents/id_1x1', 'public');
+                            $paths[] = $file->store('twsp_documents/id_1x1');
                         }
                         $twspData['id_pictures_1x1'] = $paths;
                     }
@@ -165,7 +165,7 @@ class ApplicantController extends Controller
                     if ($request->hasFile('id_pictures_passport')) {
                         $paths = [];
                         foreach ($request->file('id_pictures_passport') as $file) {
-                            $paths[] = $file->store('twsp_documents/id_passport', 'public');
+                            $paths[] = $file->store('twsp_documents/id_passport');
                         }
                         $twspData['id_pictures_passport'] = $paths;
                     }
@@ -173,7 +173,7 @@ class ApplicantController extends Controller
                     if ($request->hasFile('government_school_id')) {
                         $paths = [];
                         foreach ($request->file('government_school_id') as $file) {
-                            $paths[] = $file->store('twsp_documents/gov_school_id', 'public');
+                            $paths[] = $file->store('twsp_documents/gov_school_id');
                         }
                         $twspData['government_school_id'] = $paths;
                 }
@@ -442,7 +442,7 @@ class ApplicantController extends Controller
         // Handle photo upload
         if ($request->hasFile('photo')) {
             $oldPhotoPath = $application->photo;
-            $photoPath = $request->file('photo')->store('photos', 'public');
+            $photoPath = $request->file('photo')->store('photos');
             $applicationData['photo'] = $photoPath;
 
             // Track photo change
@@ -479,12 +479,12 @@ class ApplicantController extends Controller
             foreach ($singleFiles as $field => $label) {
                 if ($request->hasFile($field)) {
                     // Delete old file if exists
-                    if ($twspDocument && $twspDocument->$field && \Storage::disk('public')->exists($twspDocument->$field)) {
-                        \Storage::disk('public')->delete($twspDocument->$field);
+                    if ($twspDocument && $twspDocument->$field && \Storage::exists($twspDocument->$field)) {
+                        \Storage::delete($twspDocument->$field);
                     }
 
                     // Store new file
-                    $filePath = $request->file($field)->store('twsp_documents', 'public');
+                    $filePath = $request->file($field)->store('twsp_documents');
                     $twspUpdates[$field] = $filePath;
 
                     // Track change
@@ -635,7 +635,7 @@ class ApplicantController extends Controller
             }
             
             // Store new payment proof
-            $path = $request->file('payment_proof')->store('reassessment-payments', 'public');
+            $path = $request->file('payment_proof')->store('reassessment-payments');
             
             // Update application with 2nd reassessment payment
             $application->update([
@@ -656,7 +656,7 @@ class ApplicantController extends Controller
             }
             
             // Store new payment proof
-            $path = $request->file('payment_proof')->store('reassessment-payments', 'public');
+            $path = $request->file('payment_proof')->store('reassessment-payments');
             
             // Update application with 1st reassessment payment
             $application->update([
