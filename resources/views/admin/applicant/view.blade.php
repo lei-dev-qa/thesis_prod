@@ -263,7 +263,7 @@
                                     <div class="mt-3">
                                         <p><strong>Official Receipt:</strong></p>
                                         @if ($application->official_receipt_photo)
-                                            <a href="{{ route('admin.applications.file', ['application' => $application->id, 'fileType' => 'official-receipt']) }}"
+                                            <a href="{{ route('applications.file', ['application' => $application->id, 'fileType' => 'official-receipt']) }}"
                                                 target="_blank" class="btn btn-sm btn-info mb-2">
                                                 <i class="bi bi-file-earmark-text"></i> View Official Receipt
                                             </a>
