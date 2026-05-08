@@ -208,7 +208,7 @@ class ApplicationController extends Controller
             \Storage::disk('public')->delete($application->official_receipt_photo);
         }
 
-        $path = $request->file('official_receipt_photo')->store('official-receipts', 'public');
+        $path = $request->file('official_receipt_photo')->store('official-receipts');
 
         $application->update([
             'official_receipt_photo' => $path,
