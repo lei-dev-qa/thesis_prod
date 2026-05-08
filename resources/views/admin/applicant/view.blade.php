@@ -234,7 +234,7 @@
                                     class="btn btn-sm btn-primary mb-2">
                                     <i class="bi bi-eye"></i> View Payment Proof
                                 </a> --}}
-                                <a href="{{ route('admin.applications.file', ['application' => $application->id, 'fileType' => 'payment-proof']) }}" 
+                                <a href="{{ route('applicant.applications.file', ['application' => $application->id, 'fileType' => 'payment-proof']) }}" 
                                     target="_blank" class="btn btn-sm btn-primary mb-2">
                                         <i class="bi bi-eye"></i> View Payment Proof
                                 </a>
