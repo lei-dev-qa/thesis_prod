@@ -16,15 +16,15 @@ class TraineeSeeder extends Seeder
     public function run(): void
     {
         // Create admin user if not exists (for reviewed_by field)
-        $admin = User::firstOrCreate(
-            ['email' => 'admin1@tesda.local'],
-            [
-                'name' => 'Admin User',
-                'password' => Hash::make('password'),
-                'role' => 'admin',
-                'email_verified_at' => now(),
-            ]
-        );
+        // $admin = User::firstOrCreate(
+        //     ['email' => 'admin1@tesda.local'],
+        //     [
+        //         'name' => 'Admin User',
+        //         'password' => Hash::make('password'),
+        //         'role' => 'admin',
+        //         'email_verified_at' => now(),
+        //     ]
+        // );
 
         // Get existing active TWSP announcement
         $announcement = TwspAnnouncement::where('is_active', true)->first();
@@ -41,7 +41,7 @@ class TraineeSeeder extends Seeder
                 'batch_number' => 1,
             ],
             [
-                'max_students' => 25,
+                'max_students' => 24,
                 'status' => TrainingBatch::STATUS_ENROLLING,
                 'remarks' => 'Seeded batch for testing',
             ]
